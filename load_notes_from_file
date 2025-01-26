@@ -1,0 +1,26 @@
+from fileinput import close
+number=0
+notes = []
+note={}
+file = open('saved_notes_in_file.txt', 'r', encoding='UTF-8')
+content=file.readlines()
+print('content:',content)
+for line in content:
+    line=line.strip()
+    if line.startswith('Заметка №'):
+        if note:
+            print('note:',note)
+            notes.append(note)
+            note={}
+    else:
+        key_value=line.split(':',1)
+        if len(key_value)==2:
+            key=key_value[0].strip().replace("'","")
+            value=key_value[1].strip().replace("'","")
+            note[key]=value
+if note:
+    notes.append(note)
+file.close()
+print(note)
+print(notes)
+
