@@ -1,26 +1,26 @@
-from fileinput import close
-number=0
-notes = []
-note={}
+
+def load_notes_from_file(file):
+    number=0
+    notes = []
+    note={}
+    content=file.readlines()
+    for line in content:
+        line=line.strip()
+        if line.startswith('Заметка №'):
+            if note:
+                notes.append(note)
+                note={}
+        else:
+            key_value=line.split(':',1)#разделяем строку на две части до : и после
+            if len(key_value)==2: #проверяем поделилось ли на 2 части по :
+                key=key_value[0].strip().replace("'","") #.strip = удаление пробелов и символов новой строки
+                value=key_value[1].strip().replace("'","")
+                note[key]=value
+    if note:
+        notes.append(note)
+    file.close()
+    return(notes)
 file = open('saved_notes_in_file.txt', 'r', encoding='UTF-8')
-content=file.readlines()
-print('content:',content)
-for line in content:
-    line=line.strip()
-    if line.startswith('Заметка №'):
-        if note:
-            print('note:',note)
-            notes.append(note)
-            note={}
-    else:
-        key_value=line.split(':',1)
-        if len(key_value)==2:
-            key=key_value[0].strip().replace("'","")
-            value=key_value[1].strip().replace("'","")
-            note[key]=value
-if note:
-    notes.append(note)
-file.close()
-print(note)
+notes = load_notes_from_file(file)
 print(notes)
 
