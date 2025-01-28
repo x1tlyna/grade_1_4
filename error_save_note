@@ -8,17 +8,23 @@ notes = [
     {'имя': 'Иван', 'Заголовок': 'План работы', 'Пункт заметки': 'Завершить проект', 'Статус': 'выполнено',
      'Дата создания': '20-11-2024', 'Срок выполнения до': '26-11-2024'}
 ]
-try:
-    with open('error_saved_notes_in_file.txt', 'w', encoding='UTF-8') as file:
-        for note in notes:
-            number+=1
-            file.write(f'Заметка № {number} \n')
-            for key, value in note.items():
-                file.write(f"{key}: '{value}'\n")
-            file.write('\n')
-except FileNotFoundError:
-    print('Файл не найден')
-except UnicodeDecodeError:
-    print('Не удалось декодировать файл')
-except PermissionError:
-    print('У вас не хватает прав для этого файла')
+def save_note_to_file(notes):
+    number=0
+    try:
+        file = open('error_saved_notes_in_file.txt', 'x', encoding='UTF-8')
+        file.close()
+        print('Файл не найден, но был создан')
+    except FileExistsError:
+        print('Файл найден')
+    except UnicodeDecodeError:
+        print('Не удалось декодировать файл')
+    except PermissionError:
+        print('У вас не хватает прав для этого файла')
+        with open('error_saved_notes_in_file.txt', 'w', encoding='UTF-8') as file:
+            for note in notes:
+                number+=1
+                file.write(f'Заметка № {number} \n')
+                for key, value in note.items():
+                    file.write(f"{key}: '{value}'\n")
+                file.write('\n')
+save_note_to_file(notes)
