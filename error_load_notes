@@ -1,32 +1,45 @@
 from fileinput import close
 number=0
-notes = []
-note={}
-try:
-    with open('error_saved_notes_in_file.txt', 'r', encoding='UTF-8') as file:
-        content=file.readlines()
-        print('content:',content)
-        for line in content:
-            line=line.strip()
-            if line.startswith('Заметка №'):
-                if note:
-                    print('note:',note)
-                    notes.append(note)
-                    note={}
-            else:
-                key_value=line.split(':',1)
-                if len(key_value)==2:
-                    key=key_value[0].strip().replace("'","")
-                    value=key_value[1].strip().replace("'","")
-                    note[key]=value
-        if note:
-            notes.append(note)
-except FileNotFoundError:
-    print('файл не найден')
-except UnicodeDecodeError:
-    print('невозможно декодировать файл')
-except PermissionError:
-    print('недостаточно прав на открытие файла')
+notes = [
+    {'имя': 'Алексей', 'Заголовок': 'Список покупок', 'Пункт заметки': 'Купить продукты на неделю', 'Статус': 'новая',
+     'Дата создания': '27-11-2024', 'Срок выполнения до': '30-11-2024'},
+    {'имя': 'Мария', 'Заголовок': 'Учеба', 'Пункт заметки': 'Подготовиться к экзамену', 'Статус': 'в процессе',
+     'Дата создания': '25-11-2024', 'Срок выполнения до': '01-12-2024'},
+    {'имя': 'Иван', 'Заголовок': 'План работы', 'Пункт заметки': 'Завершить проект', 'Статус': 'выполнено',
+     'Дата создания': '20-11-2024', 'Срок выполнения до': '26-11-2024'}
+]
+def error_load_notes(file):
+    note={}
+    try:
+        file = open('error_saved_notes_in_file.txt', 'r', encoding='UTF-8')
+        file.close()
+    except FileNotFoundError:
+            from error_save_note import save_note_to_file
+    except UnicodeDecodeError:
+        print('невозможно декодировать файл')
+    except PermissionError:
+        print('недостаточно прав на открытие файла')
 
+        with open('error_saved_notes_in_file.txt', 'r', encoding='UTF-8') as file:
+            content=file.readlines()
+            print('content:',content)
+            for line in content:
+                line=line.strip()
+                if line.startswith('Заметка №'):
+                    if note:
+                        print('note:',note)
+                        notes.append(note)
+                        note={}
+                else:
+                    key_value=line.split(':',1)
+                    if len(key_value)==2:
+                        key=key_value[0].strip().replace("'","")
+                        value=key_value[1].strip().replace("'","")
+                        note[key]=value
+            if note:
+                notes.append(note)
+            return notes
+with open('error_saved_notes_in_file.txt', 'r', encoding='UTF-8') as file:
+    error_load_notes(file)
 print(notes)
 
