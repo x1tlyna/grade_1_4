@@ -1,5 +1,4 @@
 from fileinput import close
-number=0
 notes = [
     {'имя': 'Алексей', 'Заголовок': 'Список покупок', 'Пункт заметки': 'Купить продукты на неделю', 'Статус': 'новая',
      'Дата создания': '27-11-2024', 'Срок выполнения до': '30-11-2024'},
@@ -8,11 +7,14 @@ notes = [
     {'имя': 'Иван', 'Заголовок': 'План работы', 'Пункт заметки': 'Завершить проект', 'Статус': 'выполнено',
      'Дата создания': '20-11-2024', 'Срок выполнения до': '26-11-2024'}
 ]
-file = open('saved_notes_in_file.txt', 'w', encoding='UTF-8')
-for note in notes:
-    number+=1
-    file.write(f'Заметка № {number} \n')
-    for key, value in note.items():
-        file.write(f"{key}: '{value}'\n")
-    file.write('\n')
-file.close()
+def save_note_to_file(notes):
+    file = open('saved_notes_in_file.txt', 'w', encoding='UTF-8')
+    number=0
+    for note in notes:
+        number+=1
+        file.write(f'Заметка № {number} \n')
+        for key, value in note.items():
+            file.write(f"{key}: '{value}'\n")
+        file.write('\n')
+    file.close()
+save_note_to_file(notes)
